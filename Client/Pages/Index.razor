@@ -1,7 +1,32 @@
 ﻿@page "/"
 
-<h1>Hello, Alex!</h1>
+<h1>Hello, @StringUtilities.CustomToUpper(name)!</h1>
 
-Welcome to your new app.
+<p>This is my playground</p>
+
+<button @onclick="@WriteInLog">Click me!</button>
+
+<div>
+    <h3>Movie</h3>
+    <p>Title: <span class="movie-info">@spiderman.Title</span></p>
+    <p>Release Date: <span class="movie-info">
+        @spiderman.ReleaseDate.ToString("dd MMM yyyy")
+    </span></p>
+</div>
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+@code{
+    string name = "Alex";
+
+    Movie spiderman = new Movie()
+    {
+        Title = "Spider-Man: Go for it Girl",
+        ReleaseDate = new DateTime(2020, 2, 3)
+    };
+
+    void WriteInLog()
+    {
+        Console.WriteLine("Well done, honey!");
+    }
+}

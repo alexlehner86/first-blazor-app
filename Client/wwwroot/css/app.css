@@ -181,3 +181,8 @@ app {
         display: block;
     }
 }
+
+.movie-info {
+    font-weight: bold;
+    color: darkslategrey;
+}
