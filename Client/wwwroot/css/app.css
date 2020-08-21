@@ -186,3 +186,7 @@ app {
     font-weight: bold;
     color: darkslategrey;
 }
+
+.uneven-elements-grey:nth-child(odd) {
+    background-color: lightgrey;
+}

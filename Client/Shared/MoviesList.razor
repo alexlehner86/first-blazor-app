@@ -1,0 +1,45 @@
+<div class="movies-list">
+    <input type="checkbox" @bind="displayMovieButtons"/>
+    <GenericList ListItems="Movies">
+        <ElementTemplate Context="movie">
+            <IndividualMovie
+                MovieToDisplay="movie"
+                DisplayButtons="displayMovieButtons"
+                DeleteMovie="DeleteMovie"
+            />
+        </ElementTemplate>
+        <NullTemplate>
+            <p style="color: red; font-weight: bold;">This is loading...</p>
+        </NullTemplate>
+        <EmptyTemplate>
+            <p>There are no records to show.</p>
+        </EmptyTemplate>
+    </GenericList>
+</div>
+
+@code {
+    [Parameter] public List<Movie> Movies { get; set; }
+    public bool displayMovieButtons = false;
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine("OnInitialized: Movies.Count = " + Movies.Count.ToString());
+    }
+    protected override void OnParametersSet()
+    {
+        Console.WriteLine("OnParametersSet: Movies.Count = " + Movies.Count.ToString());
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Console.WriteLine("OnAfterRender: FirstRender = " + firstRender.ToString());
+    }
+    protected override bool ShouldRender()
+    {
+        return true;
+    }
+
+    private void DeleteMovie(Movie movieToDelete)
+    {
+        Movies.Remove(movieToDelete);
+    }
+}

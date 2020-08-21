@@ -1,32 +1,24 @@
 ﻿@page "/"
 
-<h1>Hello, @StringUtilities.CustomToUpper(name)!</h1>
-
-<p>This is my playground</p>
-
-<button @onclick="@WriteInLog">Click me!</button>
-
 <div>
-    <h3>Movie</h3>
-    <p>Title: <span class="movie-info">@spiderman.Title</span></p>
-    <p>Release Date: <span class="movie-info">
-        @spiderman.ReleaseDate.ToString("dd MMM yyyy")
-    </span></p>
+    <h2>List of Movies</h2>
+    <MoviesList Movies="movies" />
+</div>
+<div>
+    <h2>Create a Movie</h2>
+    <DummyTextbox placeholder="movie name"/>
 </div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code {
+    private List<Movie> movies;
 
-@code{
-    string name = "Alex";
-
-    Movie spiderman = new Movie()
+    protected override void OnInitialized()
     {
-        Title = "Spider-Man: Go for it Girl",
-        ReleaseDate = new DateTime(2020, 2, 3)
-    };
-
-    void WriteInLog()
-    {
-        Console.WriteLine("Well done, honey!");
+        movies = new List<Movie>()
+        {
+            new Movie(){Title = "Spider-Man: Go for it, Girl!", ReleaseDate = new DateTime(2020, 2, 3)},
+            new Movie(){Title = "Batman & Robin: Revelations", ReleaseDate = new DateTime(1995, 11, 30)},
+            new Movie(){Title = "Avengers: Week of Ultron", ReleaseDate = new DateTime(2015, 5, 7)}
+        };
     }
 }
