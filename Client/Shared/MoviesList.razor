@@ -53,15 +53,10 @@
         return true;
     }
 
-    public async Task DeleteMovie(Movie movie)
+    public void DeleteMovie(Movie movie)
     {
         movieToDelete = movie;
         confirmationDialog.Show();
-        @* await js.MyFunction("custom message");
-        var confirmed = await js.Confirm($"Are you sure you want to delete {movieToDelete.Title}?");
-        if (confirmed)
-        {
-        } *@
     }
 
     public void onConfirmDeleteMovie()
