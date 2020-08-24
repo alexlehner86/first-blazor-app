@@ -1,9 +1,9 @@
-<div class="fancy-movie">
-    <p>Title: <span class="movie-info">@MovieToDisplay.Title</span></p>
+<div class="movie-item">
+    <h3 class="movie-title">@MovieToDisplay.Title</h3>
     <p>Release Date: <span class="movie-info">@MovieToDisplay.ReleaseDate.ToString("dd MMM yyyy")</span></p>
     @if (DisplayButtons)
     {
-        <button @onclick="@(() => DeleteMovie.InvokeAsync(MovieToDisplay))">Delete</button>
+        <button class="btn btn-secondary" @onclick="@(() => DeleteMovie.InvokeAsync(MovieToDisplay))">Delete</button>
     }
 </div>
 

@@ -3,16 +3,14 @@
 <h1>Counter</h1>
 
 <p>Current count: @currentCount</p>
+<p>Singleton count: @singleton.Value</p>
+<p>Transient count: @transient.Value</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
 <input type="number" @bind="currentCount" />
 
-@code {
-    private int currentCount = 0;
+<hr />
 
-    private void IncrementCount()
-    {
-        currentCount++;
-    }
-}
+<button class="btn btn-primary" onclick="dotNetStaticInvocation()">Call .NET static function</button>
+<button class="btn btn-primary" @onclick="IncrementCountJavaScript">Click me JavaScript</button>

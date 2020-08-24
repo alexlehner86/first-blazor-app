@@ -1,5 +1,10 @@
+@inject IJSRuntime js
+
+<div class="movies-list-controls">
+    <input type="checkbox" id="displayMovieButtonsCheckbox" @bind="displayMovieButtons"/>
+    <label for="displayMovieButtonsCheckbox">Show Buttons</label>
+</div>
 <div class="movies-list">
-    <input type="checkbox" @bind="displayMovieButtons"/>
     <GenericList ListItems="Movies">
         <ElementTemplate Context="movie">
             <IndividualMovie
@@ -17,9 +22,19 @@
     </GenericList>
 </div>
 
+<Confirmation
+    @ref="confirmationDialog"
+    onCancel="onCancelDeleteMovie"
+    onConfirm="onConfirmDeleteMovie"
+>
+    <p>Do you wish to delete the movie @movieToDelete.Title?</p>
+</Confirmation>
+
 @code {
     [Parameter] public List<Movie> Movies { get; set; }
-    public bool displayMovieButtons = false;
+    public bool displayMovieButtons = true;
+    private Confirmation confirmationDialog;
+    private Movie movieToDelete;
 
     protected override void OnInitialized()
     {
@@ -38,8 +53,27 @@
         return true;
     }
 
-    private void DeleteMovie(Movie movieToDelete)
+    public async Task DeleteMovie(Movie movie)
+    {
+        movieToDelete = movie;
+        confirmationDialog.Show();
+        @* await js.MyFunction("custom message");
+        var confirmed = await js.Confirm($"Are you sure you want to delete {movieToDelete.Title}?");
+        if (confirmed)
+        {
+        } *@
+    }
+
+    public void onConfirmDeleteMovie()
     {
         Movies.Remove(movieToDelete);
+        confirmationDialog.Hide();
+        movieToDelete = null;
+    }
+
+    public void onCancelDeleteMovie()
+    {
+        confirmationDialog.Hide();
+        movieToDelete = null;
     }
 }

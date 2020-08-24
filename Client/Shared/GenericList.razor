@@ -24,12 +24,10 @@ else if (ListItems.Count == 0)
 }
 else
 {
-    <div class="movies-list">
-        @foreach (var item in ListItems)
-        {
-            @ElementTemplate(item)
-        }
-    </div>
+    @foreach (var item in ListItems)
+    {
+        @ElementTemplate(item)
+    }
 }
 
 @code {

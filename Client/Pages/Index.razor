@@ -1,24 +1,31 @@
 ﻿@page "/"
+@inject SingletonService singleton
+@inject IRepository repository
 
-<div>
-    <h2>List of Movies</h2>
-    <MoviesList Movies="movies" />
+<h2>List of Movies</h2>
+<MoviesList Movies="movies" />
+<hr />
+<h2>Create a Movie</h2>
+<div class="input-plus-button-line">
+    <input type="text" class="form-control" placeholder="Movie Title" @bind="newMovieTitle" />
+    <button class="btn btn-primary" @onclick="onAddMovie">Add</button>
 </div>
-<div>
-    <h2>Create a Movie</h2>
-    <DummyTextbox placeholder="movie name"/>
-</div>
+<hr />
+<p>Singleton count: @singleton.Value</p>
 
 @code {
-    private List<Movie> movies;
+    public List<Movie> movies;
+    public string newMovieTitle = "";
 
     protected override void OnInitialized()
     {
-        movies = new List<Movie>()
-        {
-            new Movie(){Title = "Spider-Man: Go for it, Girl!", ReleaseDate = new DateTime(2020, 2, 3)},
-            new Movie(){Title = "Batman & Robin: Revelations", ReleaseDate = new DateTime(1995, 11, 30)},
-            new Movie(){Title = "Avengers: Week of Ultron", ReleaseDate = new DateTime(2015, 5, 7)}
-        };
+        movies = repository.GetMovies();
+    }
+
+    private void onAddMovie()
+    {
+        var newMovie = new Movie(){Title = newMovieTitle, ReleaseDate = DateTime.Now};
+        movies.Add(newMovie);
+        newMovieTitle = "";
     }
 }
