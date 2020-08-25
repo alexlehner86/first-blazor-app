@@ -10,6 +10,7 @@ namespace firstBlazorApp.Client.Pages
         [Inject] SingletonService singleton { get; set; }
         [Inject] TransientService transient { get; set; }
         [Inject] IJSRuntime js { get; set; }
+        [CascadingParameter] public AppState AppState { get; set; }
         private int currentCount = 0;
         private static int currentCountStatic = 0;
 

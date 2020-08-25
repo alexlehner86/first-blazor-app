@@ -10,7 +10,13 @@
     </div>
 
     <div class="content px-4">
-        @Body
+        <CascadingValue Value="@appState">
+            @Body 
+        </CascadingValue>
     </div>
     <footer>by Alexander Lehner</footer>
 </div>
+
+@code {
+    private AppState appState = new AppState();
+}

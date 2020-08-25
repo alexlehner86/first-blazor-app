@@ -1,8 +1,8 @@
 ﻿@page "/counter"
 
-<h1>Counter</h1>
+<h1 style="color: @AppState.Color;">Counter</h1>
 
-<p>Current count: @currentCount</p>
+<p style="color: @AppState.Color; font-size: @AppState.TextSize;">Current count: @currentCount</p>
 <p>Singleton count: @singleton.Value</p>
 <p>Transient count: @transient.Value</p>
 
@@ -14,3 +14,23 @@
 
 <button class="btn btn-primary" onclick="dotNetStaticInvocation()">Call .NET static function</button>
 <button class="btn btn-primary" @onclick="IncrementCountJavaScript">Click me JavaScript</button>
+
+<hr />
+
+<h2>Change Font Color and Size</h2>
+<div style="display: flex">
+    <div style="width: 150px">
+        <select name="fontColorSelect" id="fontColorSelect" class="form-control" @bind="AppState.Color">
+            <option value="darkgreen">Dark Green</option>
+            <option value="darkred">Dark Red</option>
+            <option value="darkblue">Dark Blue</option>
+        </select>
+    </div>
+    <div style="width: 150px">
+        <select name="textSizeSelect" id="textSizeSelect" class="form-control" @bind="AppState.TextSize">
+            <option value="0.75rem">0.75rem</option>
+            <option value="1rem">1rem</option>
+            <option value="1.5rem">1.5rem</option>
+        </select>
+    </div>
+</div>

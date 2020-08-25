@@ -1,0 +1,90 @@
+@page "/rockpaperscissors"
+@using System.Timers
+@implements IDisposable
+
+<h1>Rock / Paper / Scissors</h1>
+@if (!String.IsNullOrEmpty(resultMessage))
+{
+    <p role="alert" aria-atomic="true" class="rps-result-message @resultMessageClass">@resultMessage</p>
+    <button class="btn btn-info" @onclick="@(() => PlayAgain())">Play Again</button>
+}
+<div class="rps-container">
+    <img src="assets/img/@opponentHand.Image" alt="Opponent has selected @opponentHand.AltText" class="rps-image">
+</div>
+<div class="rps-select-container">
+    @foreach (var hand in hands)
+    {
+        <button class="rps-image-button" aria-label="Select @hand.AltText" @onclick="@(() => SelectHand(hand))">
+            <img src="assets/img/@hand.Image" class="rps-image" aria-hidden="true">
+        </button>
+    }
+</div>
+
+@code {
+    private List<HandRPS> hands = new List<HandRPS>()
+    {
+        new HandRPS{SelectedOption = OptionRPS.Rock, LosesAgainst = OptionRPS.Paper, WinsAgainst = OptionRPS.Scissors,
+                    Image = "rock.jpg", AltText = "rock"},
+        new HandRPS{SelectedOption = OptionRPS.Paper, LosesAgainst = OptionRPS.Scissors, WinsAgainst = OptionRPS.Rock,
+                    Image = "paper.jpg", AltText = "paper"},
+        new HandRPS{SelectedOption = OptionRPS.Scissors, LosesAgainst = OptionRPS.Rock, WinsAgainst = OptionRPS.Paper,
+                    Image = "scissors.jpg", AltText = "scissors"}
+    };
+    private Timer timer;
+    private HandRPS opponentHand;
+    private int indexOpponentHand = 0;
+    private string resultMessage = String.Empty;
+    private string resultMessageClass = String.Empty;
+
+    public void Dispose()
+    {
+        if (timer != null)
+        {
+            timer.Dispose();
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        opponentHand = hands[indexOpponentHand];
+        timer = new Timer();
+        timer.Interval = 100; // execute every 100 milliseconds
+        timer.Elapsed += TimerOnElapsed;
+        timer.Start();
+    }
+
+    private void TimerOnElapsed(object sender, ElapsedEventArgs e)
+    {
+        indexOpponentHand = (indexOpponentHand + 1) % hands.Count;
+        opponentHand = hands[indexOpponentHand];
+        // We're outside of the Blazor Lifecycle. Therefore, we inform Blazor it needs to update the view.
+        StateHasChanged();
+    }
+
+    private void SelectHand(HandRPS hand)
+    {
+        timer.Stop();
+        var result = hand.PlayAgainst(opponentHand);
+        switch (result)
+        {
+            case GameStatus.Victory:
+                resultMessage = "You won!";
+                resultMessageClass = "rps-victory";
+                break;
+            case GameStatus.Loss:
+                resultMessage = "You lost!";
+                resultMessageClass = "rps-loss";
+                break;
+            default:
+                resultMessage = "It's a draw!";
+                resultMessageClass = "rps-draw";
+                break;
+        }
+    }
+
+    private void PlayAgain()
+    {
+        timer.Start();
+        resultMessage = String.Empty;
+    }
+}
